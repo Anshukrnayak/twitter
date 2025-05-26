@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}X Clone{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for X-like appearance */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+        .sidebar-icon {
+            transition: background-color 0.2s;
+        }
+        .sidebar-icon:hover {
+            background-color: #e8f5fe;
+            border-radius: 9999px;
+        }
+        .post-border {
+            border-bottom: 1px solid #e6ecf0;
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+    <div class="flex min-h-screen max-w-7xl mx-auto">
+        <!-- Left Sidebar -->
+        <div class="w-20 lg:w-64 fixed top-0 left-0 h-full border-r border-gray-200 p-4 flex flex-col justify-between">
+            <div>
+                <!-- Logo -->
+                <div class="mb-4">
+                    <a href="/" class="flex items-center justify-center lg:justify-start">
+                        <svg class="w-8 h-8 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                            <!-- Simplified X logo (Twitter bird approximation) -->
+                            <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733a4.67 4.67 0 002.048-2.578 9.3 9.3 0 01-2.958 1.13 4.66 4.66 0 00-7.938 4.25 13.229 13.229 0 01-9.602-4.868c-.4.69-.632 1.485-.632 2.332 0 1.61.818 3.03 2.06 3.864a4.65 4.65 0 01-2.11-.583v.06c0 2.25 1.6 4.13 3.72 4.56a4.67 4.67 0 01-2.1.08 4.66 4.66 0 004.35 3.23 9.36 9.36 0 01-5.79 2 13.2 13.2 0 007.14 2.09c8.57 0 13.25-7.1 13.25-13.25 0-.2 0-.4-.015-.6.91-.66 1.7-1.48 2.32-2.42z"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-2 text-xl font-bold">X</span>
+                    </a>
+                </div>
+                <!-- Navigation -->
+                <nav class="space-y-2">
+                    <a href="/" class="flex items-center p-3 sidebar-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-4 font-semibold">Home</span>
+                    </a>
+                    <a href="/explore" class="flex items-center p-3 sidebar-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-4 font-semibold">Explore</span>
+                    </a>
+                    <a href="/notifications" class="flex items-center p-3 sidebar-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-4 font-semibold">Notifications</span>
+                    </a>
+                    <a href="" class="flex items-center p-3 sidebar-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-4 font-semibold">Messages</span>
+                    </a>
+                    <a href="{% url 'profile' %}" class="flex items-center p-3 sidebar-icon">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <span class="hidden lg:inline ml-4 font-semibold">Profile</span>
+                    </a>
+                </nav>
+                <!-- Post Button -->
+                <a href="{% url 'post_create' %}" class="mt-4 w-full bg-blue-500 text-white rounded-full py-3 px-4 font-bold hover:bg-blue-600 lg:flex hidden">
+                    Post
+                </a>
+                <button class="mt-4 w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center hover:bg-blue-600 lg:hidden">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                    </svg>
+                </button>
+            </div>
+            <!-- User Profile -->
+            <div class="hidden lg:flex items-center p-3 hover:bg-gray-100 rounded-full">
+                <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full">
+                <div class="ml-3">
+                    <p class="font-semibold">User Name</p>
+                    <p class="text-gray-500 text-sm">@username</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="ml-20 lg:ml-64 w-full max-w-xl border-r border-gray-200">
+            {% block content %}
+            <!-- Placeholder for dynamic content -->
+            <div class="p-4 post-border">
+                <div class="flex items-start">
+                    <img src="https://via.placeholder.com/48" alt="Profile" class="w-12 h-12 rounded-full">
+                    <div class="ml-3 w-full">
+                        <div class="flex items-center">
+                            <p class="font-semibold">User Name</p>
+                            <p class="text-gray-500 ml-2">@username · 1h</p>
+                        </div>
+                        <p>Hello, world! This is a sample post on our X clone.</p>
+                    </div>
+                </div>
+            </div>
+            {% endblock %}
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="hidden lg:block w-80 p-4">
+            <div class="mb-4">
+                <input type="text" placeholder="Search X" class="w-full bg-gray-100 rounded-full py-2 px-4 text-sm">
+            </div>
+            <div class="bg-gray-100 rounded-lg p-4">
+                <h2 class="font-bold text-lg mb-2">Trends for you</h2>
+                <div class="space-y-2">
+                    <div>
+                        <p class="text-sm text-gray-500">Trending in World</p>
+                        <p class="font-semibold">#SampleTrend</p>
+                        <p class="text-sm text-gray-500">12.3K posts</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Trending in Tech</p>
+                        <p class="font-semibold">#TechNews</p>
+                        <p class="text-sm text-gray-500">8.7K posts</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 bg-gray-100 rounded-lg p-4">
+                <h2 class="font-bold text-lg mb-2">Who to follow</h2>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full">
+                        <div class="ml-3">
+                            <p class="font-semibold">Suggested User</p>
+                            <p class="text-gray-500 text-sm">@suggesteduser</p>
+                        </div>
+                        <button class="ml-auto bg-blue-500 text-white rounded-full py-1 px-3 text-sm hover:bg-blue-600">Follow</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+</html>

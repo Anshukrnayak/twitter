@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+New Post | X
+{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-xl">
+    <!-- Post Creation Form -->
+    <div class="border-b border-gray-200 p-4">
+        <h2 class="text-xl font-bold mb-4">Update post </h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{form.as_p}}
+            <button>Post</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript for Character Counter and Button Enable -->
+<script>
+    const textarea = document.getElementById('post-content');
+    const charCount = document.getElementById('char-count');
+    const postButton = document.getElementById('post-button');
+
+    textarea.addEventListener('input', () => {
+        const count = textarea.value.length;
+        charCount.textContent = count;
+        postButton.disabled = count === 0;
+    });
+</script>
+{% endblock %}
