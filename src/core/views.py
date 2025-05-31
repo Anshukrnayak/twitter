@@ -1,5 +1,3 @@
-from keyword import kwlist
-
 from django.shortcuts import get_object_or_404,render,redirect,aget_list_or_404
 from django.urls import reverse_lazy
 from django.views import generic
@@ -10,17 +8,21 @@ from django.contrib.auth.decorators import login_required
 
 """ All the functionalities of Profile management. """
 
-class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
-   template_name = 'home/register-profile.html'
-   model = Profile
-   form_class = ProfileForm
-   
-   def form_valid(self, form):
-      form.instance.user=self.request.user
-      return super().form_valid(form)
+class ProfileCreateView(LoginRequiredMixin, generic.View):
+   def get(self,request):
+      form=ProfileForm()
+      return render(request,'home/register-profile.html',{'form':form})
 
-   def get_success_url(self):
-      return reverse_lazy('profile')
+   def post(self,request):
+      form=ProfileForm(request.POST,request.FILES)
+      if form.is_valid():
+         profile=form.save(commit=False)
+         profile.user=request.user
+         profile.save()
+
+         return redirect('home')
+
+      return render(request,'home/register-profile.html',{'form':form})
 
 
 class ProfileView(LoginRequiredMixin,generic.View):

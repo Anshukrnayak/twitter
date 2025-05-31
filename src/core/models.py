@@ -30,7 +30,6 @@ class Post(BaseModel):
     """
         Post model for handling user post
     """
-
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     content = models.CharField(max_length=280)  # Twitter-style length
     post_image = models.ImageField(upload_to='post_images/', blank=True, null=True)
@@ -38,6 +37,7 @@ class Post(BaseModel):
 
     def __str__(self):
         return f"{self.user.username}: {self.content[:30]}"
+
 
 # Comment model
 class Comment(BaseModel):
